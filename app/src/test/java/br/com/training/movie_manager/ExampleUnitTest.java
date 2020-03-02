@@ -1,4 +1,4 @@
-package br.com.training.movie_app;
+package br.com.training.movie_manager;
 
 import org.junit.Test;
 
