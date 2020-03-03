@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">Movie +</string>
+
+    <!-- NAVIGATION BAR -->
     <string name="action_home">Home</string>
     <string name="action_search">Search</string>
     <string name="action_fav">Favorites</string>
     <string name="action_more">More Options</string>
+
+    <!-- HOME -->
+    <string name="popular_movies">Popular Movies ></string>
+    <string name="best_rated_movies">Best Rated Movies ></string>
+    <string name="in_movie_theaters">In Movie Theaters ></string>
+    <string name="upcoming_releases">Upcoming Releases ></string>
 </resources>

@@ -3,10 +3,56 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/viewFeaturedMovie"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="HOME"/>
+        android:layout_height="wrap_content"/>
 
+    <TextView
+        android:id="@+id/txtPopularMovies"
+        android:text="@string/popular_movies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"/>
+
+    <ScrollView
+        android:id="@+id/scrollPopularMovies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/scrollBestRatedMovies"
+        android:text="@string/best_rated_movies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"/>
+
+    <ScrollView
+        android:id="@+id/txtBestRatedMovies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txtInMovieTheaters"
+        android:text="@string/in_movie_theaters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"/>
+
+    <ScrollView
+        android:id="@+id/scrollInMovieTheaters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txtUpcomingReleases"
+        android:text="@string/upcoming_releases"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"/>
+
+    <ScrollView
+        android:id="@+id/scrollUpcomingReleases"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
