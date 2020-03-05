@@ -3,15 +3,13 @@ package br.com.training.movie_manager;
 import android.content.Context;
 import android.util.Log;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import java.util.List;
 
 /**
  * Interface for MovieManager API.
@@ -46,15 +44,13 @@ public class MovieManagerNetRepository extends BaseNetRepository {
     private Interceptor requestInterceptor() {
         return chain -> {
             Request request = chain.request();
-
             final Request.Builder requestBuilder = request.newBuilder()
                     .header("Accept", "application/json")
-                    .header("Content-Type", "application/json")
+                    .header("Content-type", "application/json")
                     .method(request.method(), request.body());
 
-            Log.w("InterceptorMovieManager", "| REQUEST: " + requestBuilder.build().method() + " "
+            Log.w("InterceptorHANIOT", "| REQUEST: " + requestBuilder.build().method() + " "
                     + requestBuilder.build().url().toString());
-
             return chain.proceed(requestBuilder.build());
         };
     }
@@ -72,9 +68,9 @@ public class MovieManagerNetRepository extends BaseNetRepository {
         };
     }
 
-    public Single<List<Object>> getPopularMovies() {
-        return movieManagerService.getPopularMovies()
-                .subscribeOn(Schedulers.io())
+    public Single<Object> getPopularMovies(String api_key) {
+        return movieManagerService.getPopularMovies(api_key)
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

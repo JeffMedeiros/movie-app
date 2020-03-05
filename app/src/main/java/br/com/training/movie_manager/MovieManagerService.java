@@ -1,13 +1,12 @@
 package br.com.training.movie_manager;
 
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.Single;
 
 import retrofit2.http.GET;
-
-import java.util.List;
+import retrofit2.http.Query;
 
 /**
- * Interface for MovieManager API.
+ * Class for MovieManager Service.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB
@@ -17,6 +16,6 @@ public interface MovieManagerService {
 
     // movie.popular
     @GET("popular")
-    Single<List<Object>> getPopularMovies();
+    Single<Object> getPopularMovies(@Query("api_key") String api_key);
 
 }

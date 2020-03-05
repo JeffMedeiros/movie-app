@@ -1,6 +1,7 @@
 package br.com.training.movie_manager;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.FieldNamingPolicy;
@@ -22,6 +23,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Class for BaseNet repository.
+ *
+ * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
+ * @copyright Copyright (c) 2020, NUTES/UEPB
+ */
 public abstract class BaseNetRepository {
     protected Context mContext;
     private OkHttpClient.Builder mClient;

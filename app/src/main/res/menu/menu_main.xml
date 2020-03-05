@@ -9,23 +9,23 @@
         android:orderInCategory="100"
         android:title="@string/action_home"
         app:showAsAction="always"
-        android:icon="@drawable/iconfinder_house"/>
+        android:icon="@drawable/ic_action_home"/>
     <item
         android:id="@+id/action_search"
         android:orderInCategory="110"
         android:title="@string/action_search"
         app:showAsAction="always"
-        android:icon="@drawable/iconfinder_loupe"/>
+        android:icon="@drawable/ic_action_search"/>
     <item
         android:id="@+id/action_fav"
         android:orderInCategory="150"
         android:title="@string/action_fav"
-        android:icon="@drawable/iconfinder_heart"
+        android:icon="@drawable/ic_action_favorite"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_more"
         android:orderInCategory="200"
         android:title="@string/action_more"
-        android:icon="@drawable/iconfinder_menu"
+        android:icon="@drawable/ic_action_more_options"
         app:showAsAction="always"/>
 </menu>

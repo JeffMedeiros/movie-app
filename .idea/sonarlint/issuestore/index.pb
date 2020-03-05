@@ -11,3 +11,9 @@ P
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 q
 Aapp/src/main/java/br/com/training/movie_manager/MainActivity.java,b/5/b5f0f3f1707fa51e0e5e40c1d57ebcaeff168dbc
+v
+Fapp/src/main/java/br/com/training/movie_manager/BaseNetRepository.java,a/9/a9a7a4061f4e50fb8206477d1441f7e4da5827bd
+~
+Napp/src/main/java/br/com/training/movie_manager/MovieManagerNetRepository.java,d/2/d223c877ae0a2c5cb6392ce0658fcfa37f5d286e
+x
+Happ/src/main/java/br/com/training/movie_manager/MovieManagerService.java,f/1/f16fbe449b8c2b38fcfe95cf7412f4e06b391bdf
