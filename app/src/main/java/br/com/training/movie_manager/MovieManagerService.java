@@ -16,6 +16,6 @@ public interface MovieManagerService {
 
     // movie.popular
     @GET("popular")
-    Single<Object> getPopularMovies(@Query("api_key") String api_key);
+    Single<PopularMovie> getPopularMovies(@Query("api_key") String api_key);
 
 }

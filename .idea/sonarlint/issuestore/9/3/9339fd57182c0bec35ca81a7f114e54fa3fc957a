@@ -1,5 +1,5 @@
 
-{
-java:S1488"^Immediately return this expression instead of assigning it to the temporary variable "layout".(…µÕ¡8±®§ã‰.
 V
-java:S1172"9Remove this unused method parameter "savedInstanceState".(«ÃÀ÷8±®§ã‰.
+java:S1172"9Remove this unused method parameter "savedInstanceState".(«ÃÀ÷8±®§ã‰.
+{
+java:S1488"^Immediately return this expression instead of assigning it to the temporary variable "layout".(…µÕ¡8±®§ã‰.

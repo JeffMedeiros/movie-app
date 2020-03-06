@@ -68,7 +68,7 @@ public class MovieManagerNetRepository extends BaseNetRepository {
         };
     }
 
-    public Single<Object> getPopularMovies(String api_key) {
+    public Single<PopularMovie> getPopularMovies(String api_key) {
         return movieManagerService.getPopularMovies(api_key)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());

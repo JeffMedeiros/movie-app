@@ -29,9 +29,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        // Start with home screen
+        HomeFragment homeFragment = new HomeFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, homeFragment).commit();
+
+        // Create navigation bar menu
         Menu bottomMenu = (Menu) bottomBar.getMenu();
 
         getMenuInflater().inflate(R.menu.menu_main, bottomMenu);
+
+        bottomMenu.getItem(0).setIcon(R.drawable.ic_action_home_clicked);
 
         for (int i = 0; i < bottomMenu.size(); i++){
             bottomMenu.getItem(i).setOnMenuItemClickListener(item -> {

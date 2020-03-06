@@ -5,9 +5,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.module.AppGlideModule;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -18,10 +26,14 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public class HomeFragment extends Fragment {
 
+    @BindView(R.id.viewFeaturedMovie)
+    ImageView imgViewFeaturedMovie;
+
     private static final String TAG = "HomeFragment";
 
     private MovieManagerNetRepository movieManagerNetRepository;
     private CompositeDisposable compositeDisposable;
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -34,18 +46,7 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_home, container, false);
-
-//        ImageView imgViewFeaturedMovie = getActivity().findViewById(R.id.viewFeaturedMovie);
-
-//        Object moviesReturned;
-
-        compositeDisposable.add(movieManagerNetRepository
-                .getPopularMovies(MainActivity.API_KEY)
-                .subscribe(movies -> {
-                    Log.w(TAG, movies.toString());
-                }, error -> {
-                    Log.w(TAG, error);
-                }));
+        unbinder = ButterKnife.bind(this, layout);
 
         return layout;
     }
@@ -54,5 +55,28 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         compositeDisposable.dispose();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        compositeDisposable.add(movieManagerNetRepository
+                .getPopularMovies(MainActivity.API_KEY)
+                .subscribe(movies -> {
+                    Movie featuredMovie = movies.getResults().get(0);
+
+                    String imgFeaturedMovieUri = "https://image.tmdb.org/t/p/original"
+                            + featuredMovie.getBackdrop_path();
+
+
+                    Glide.with(this)
+                            .load(imgFeaturedMovieUri)
+                            .into(imgViewFeaturedMovie);
+                    Log.w(TAG, featuredMovie.toJson());
+                }, error -> {
+                    Log.w(TAG, error);
+                }));
     }
 }
