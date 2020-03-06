@@ -9,9 +9,14 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.module.AppGlideModule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,11 +34,30 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.viewFeaturedMovie)
     ImageView imgViewFeaturedMovie;
 
+    @BindView(R.id.viewPopularMovies)
+    RecyclerView viewPopularMovies;
+
+    @BindView(R.id.viewBestRatedMovies)
+    RecyclerView viewBestRatedMovies;
+
+    @BindView(R.id.viewAtTheMovies)
+    RecyclerView viewAtTheMoviesMovies;
+
+    @BindView(R.id.viewUpcoming)
+    RecyclerView viewUpcomingMovies;
+
     private static final String TAG = "HomeFragment";
 
     private MovieManagerNetRepository movieManagerNetRepository;
+
     private CompositeDisposable compositeDisposable;
+
     private Unbinder unbinder;
+
+    private RecyclerView.LayoutManager popularLayoutManager;
+    private RecyclerView.LayoutManager bestRatedLayoutManager;
+    private RecyclerView.LayoutManager atTheMoviesLayoutManager;
+    private RecyclerView.LayoutManager upcomingLayoutManager;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -47,6 +71,17 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, layout);
+
+        // Set Layout Manager for RecyclerView objects
+        popularLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        bestRatedLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        atTheMoviesLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        upcomingLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+
+        viewPopularMovies.setLayoutManager(popularLayoutManager);
+        viewBestRatedMovies.setLayoutManager(bestRatedLayoutManager);
+        viewAtTheMoviesMovies.setLayoutManager(atTheMoviesLayoutManager);
+        viewUpcomingMovies.setLayoutManager(upcomingLayoutManager);
 
         return layout;
     }
@@ -65,16 +100,27 @@ public class HomeFragment extends Fragment {
         compositeDisposable.add(movieManagerNetRepository
                 .getPopularMovies(MainActivity.API_KEY)
                 .subscribe(movies -> {
-                    Movie featuredMovie = movies.getResults().get(0);
+                    List<Movie> moviesResults = movies.getResults();
 
+                    // Featured movie logic
                     String imgFeaturedMovieUri = "https://image.tmdb.org/t/p/original"
-                            + featuredMovie.getBackdrop_path();
-
+                            + moviesResults.get(0).getBackdrop_path();
 
                     Glide.with(this)
                             .load(imgFeaturedMovieUri)
                             .into(imgViewFeaturedMovie);
-                    Log.w(TAG, featuredMovie.toJson());
+
+                    // Popular movies logic
+                    for (int i = 0; i < 20; i++) {
+                        String imgMovieUri = "https://image.tmdb.org/t/p/original"
+                                + moviesResults.get(i).getPoster_path();
+
+                        Glide.with(this)
+                                .load(imgMovieUri)
+                                .into(imgViewFeaturedMovie);
+                    }
+
+                    Log.w(TAG, movies.toJson());
                 }, error -> {
                     Log.w(TAG, error);
                 }));

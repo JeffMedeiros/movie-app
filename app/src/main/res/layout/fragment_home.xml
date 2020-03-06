@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -35,10 +36,12 @@
         android:clickable="true"
         app:layout_constraintTop_toBottomOf="@id/layoutFeaturedMovie" />
 
-    <ScrollView
-        android:id="@+id/scrollPopularMovies"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewPopularMovies"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
         app:layout_constraintTop_toBottomOf="@id/txtPopularMovies"/>
 
     <TextView
@@ -50,12 +53,14 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/scrollPopularMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/viewPopularMovies"/>
 
-    <ScrollView
-        android:id="@+id/scrollBestRatedMovies"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewBestRatedMovies"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
         app:layout_constraintTop_toBottomOf="@id/txtBestRatedMovies"/>
 
     <TextView
@@ -67,12 +72,14 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/scrollBestRatedMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/viewBestRatedMovies"/>
 
-    <ScrollView
-        android:id="@+id/scrollAtTheMovies"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewAtTheMovies"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
         app:layout_constraintTop_toBottomOf="@id/txtAtTheMovies"/>
 
     <TextView
@@ -84,11 +91,13 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/scrollAtTheMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/viewAtTheMovies"/>
 
-    <ScrollView
-        android:id="@+id/scrollUpcomingReleases"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewUpcoming"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtUpcomingReleases"/>
+        android:scrollbars="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
+        app:layout_constraintTop_toBottomOf="@id/txtUpcomingReleases" />
 </androidx.constraintlayout.widget.ConstraintLayout>
