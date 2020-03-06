@@ -115,9 +115,9 @@ public class HomeFragment extends Fragment {
                         String imgMovieUri = "https://image.tmdb.org/t/p/original"
                                 + moviesResults.get(i).getPoster_path();
 
-                        Glide.with(this)
-                                .load(imgMovieUri)
-                                .into(imgViewFeaturedMovie);
+//                        Glide.with(this)
+//                                .load(imgMovieUri)
+//                                .into(imgViewFeaturedMovie);
                     }
 
                     Log.w(TAG, movies.toJson());
