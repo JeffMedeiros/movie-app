@@ -38,16 +38,16 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.viewFeaturedMovie)
     ImageView imgViewFeaturedMovie;
 
-    @BindView(R.id.viewPopularMovies)
-    RecyclerView viewPopularMovies;
+    @BindView(R.id.listPopularMovies)
+    RecyclerView listPopularMovies;
 
-    @BindView(R.id.viewBestRatedMovies)
+    @BindView(R.id.listBestRatedMovies)
     RecyclerView viewBestRatedMovies;
 
-    @BindView(R.id.viewAtTheMovies)
+    @BindView(R.id.listAtTheMovies)
     RecyclerView viewAtTheMoviesMovies;
 
-    @BindView(R.id.viewUpcoming)
+    @BindView(R.id.listUpcoming)
     RecyclerView viewUpcomingMovies;
 
     /**
@@ -90,12 +90,11 @@ public class HomeFragment extends Fragment {
         popularLayoutManager = new LinearLayoutManager(
                 getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
 
-        viewPopularMovies.setLayoutManager(popularLayoutManager);
+        listPopularMovies.setLayoutManager(popularLayoutManager);
 
         // Set Adapter
         popularAdapter = new RecyclerAdapter();
-        viewPopularMovies.setAdapter(popularAdapter);
-
+        listPopularMovies.setAdapter(popularAdapter);
         return layout;
     }
 
@@ -103,6 +102,9 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        /**
+         * Consuming "popular movies" API
+         */
         compositeDisposable.add(movieManagerNetRepository
                 .getPopularMovies(MainActivity.API_KEY)
                 .subscribe(movies -> {
@@ -117,9 +119,9 @@ public class HomeFragment extends Fragment {
                             .into(imgViewFeaturedMovie);
 
                     // Popular movies logic
-                    List<String> urlsPopularMovies = new ArrayList<String>();
+                    List<String> urlsPopularMovies = new ArrayList<>();
                     for (int i = 0; i < 20; i++) {
-                        urlsPopularMovies.add("https://image.tmdb.org/t/p/original"
+                        urlsPopularMovies.add("https://image.tmdb.org/t/p/w780"
                                 + moviesResults.get(i).getPoster_path());
                     }
 

@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/layoutFeaturedMovie" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewPopularMovies"
+        android:id="@+id/listPopularMovies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
@@ -54,10 +54,10 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/viewPopularMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listPopularMovies"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewBestRatedMovies"
+        android:id="@+id/listBestRatedMovies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
@@ -74,10 +74,10 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/viewBestRatedMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listBestRatedMovies"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewAtTheMovies"
+        android:id="@+id/listAtTheMovies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
@@ -94,10 +94,10 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/viewAtTheMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listAtTheMovies"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewUpcoming"
+        android:id="@+id/listUpcoming"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
