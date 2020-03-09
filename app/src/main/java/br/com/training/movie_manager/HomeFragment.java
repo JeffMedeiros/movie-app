@@ -7,13 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public class HomeFragment extends Fragment {
 
+    /**
+     * Bind Layout elements
+     */
     @BindView(R.id.viewFeaturedMovie)
     ImageView imgViewFeaturedMovie;
 
@@ -46,18 +50,23 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.viewUpcoming)
     RecyclerView viewUpcomingMovies;
 
+    /**
+     * CONSTANTS
+     */
+    private static final int PRELOAD_AHEAD_ITEMS = 15;
     private static final String TAG = "HomeFragment";
 
+
     private MovieManagerNetRepository movieManagerNetRepository;
-
     private CompositeDisposable compositeDisposable;
-
     private Unbinder unbinder;
 
+    /**
+     * RecyclerView objects
+     */
     private RecyclerView.LayoutManager popularLayoutManager;
-    private RecyclerView.LayoutManager bestRatedLayoutManager;
-    private RecyclerView.LayoutManager atTheMoviesLayoutManager;
-    private RecyclerView.LayoutManager upcomingLayoutManager;
+    private RecyclerAdapter popularAdapter;
+    private ViewPreloadSizeProvider<String> preloadSizeProvider;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -68,29 +77,26 @@ public class HomeFragment extends Fragment {
         compositeDisposable = new CompositeDisposable();
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, layout);
 
-        // Set Layout Manager for RecyclerView objects
-        popularLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        bestRatedLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        atTheMoviesLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        upcomingLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        /**
+         * Settings for "popular movies" RecyclerView
+         */
+        // Set LayoutManager
+        popularLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
 
         viewPopularMovies.setLayoutManager(popularLayoutManager);
-        viewBestRatedMovies.setLayoutManager(bestRatedLayoutManager);
-        viewAtTheMoviesMovies.setLayoutManager(atTheMoviesLayoutManager);
-        viewUpcomingMovies.setLayoutManager(upcomingLayoutManager);
+
+        // Set Adapter
+        popularAdapter = new RecyclerAdapter();
+        viewPopularMovies.setAdapter(popularAdapter);
 
         return layout;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        compositeDisposable.dispose();
-        unbinder.unbind();
     }
 
     @Override
@@ -111,18 +117,25 @@ public class HomeFragment extends Fragment {
                             .into(imgViewFeaturedMovie);
 
                     // Popular movies logic
+                    List<String> urlsPopularMovies = new ArrayList<String>();
                     for (int i = 0; i < 20; i++) {
-                        String imgMovieUri = "https://image.tmdb.org/t/p/original"
-                                + moviesResults.get(i).getPoster_path();
-
-//                        Glide.with(this)
-//                                .load(imgMovieUri)
-//                                .into(imgViewFeaturedMovie);
+                        urlsPopularMovies.add("https://image.tmdb.org/t/p/original"
+                                + moviesResults.get(i).getPoster_path());
                     }
+
+                    popularAdapter.setmDataSet(urlsPopularMovies);
+                    popularAdapter.notifyDataSetChanged();
 
                     Log.w(TAG, movies.toJson());
                 }, error -> {
                     Log.w(TAG, error);
                 }));
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        compositeDisposable.dispose();
+        unbinder.unbind();
     }
 }

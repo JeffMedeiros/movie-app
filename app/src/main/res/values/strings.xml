@@ -12,4 +12,7 @@
     <string name="best_rated_movies">Best Rated ></string>
     <string name="at_the_movies">At the movies ></string>
     <string name="upcoming_releases">Upcoming ></string>
+
+    <!-- RECYCLER VIEW ELEMENT -->
+    <string name="img_element">Image element</string>
 </resources>
