@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment {
 
                     // Popular movies logic
                     List<String> urlsPopular = new ArrayList<>();
-                    for (int i = 0; i < 20; i++) {
+                    for (int i = 1; i < 20; i++) {
                         urlsPopular.add(Default.BASE_URL_IMAGE + moviesResults.get(i).getPosterPath());
                     }
 
