@@ -16,6 +16,21 @@ public interface MovieManagerService {
 
     // movie.popular
     @GET("popular")
-    Single<PopularMovie> getPopularMovies(@Query("api_key") String api_key);
+    Single<MovieResult> getPopularMovies(@Query("api_key") String api_key, @Query("language") String language,
+                                         @Query("page") int page, @Query("region") String region);
 
+    // movie.top_rated
+    @GET("top_rated")
+    Single<MovieResult> getTopRatedMovies(@Query("api_key") String api_key, @Query("language") String language,
+                                          @Query("page") int page, @Query("region") String region);
+
+    // movie.now_playing
+    @GET("now_playing")
+    Single<MovieResult> getInTheatresMovies(@Query("api_key") String api_key, @Query("language") String language,
+                                            @Query("page") int page, @Query("region") String region);
+
+    // movie.upcoming
+    @GET("upcoming")
+    Single<MovieResult> getUpcomingMovies(@Query("api_key") String api_key, @Query("language") String language,
+                                          @Query("page") int page, @Query("region") String region);
 }

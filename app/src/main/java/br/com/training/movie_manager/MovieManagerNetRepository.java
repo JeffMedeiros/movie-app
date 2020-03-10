@@ -68,11 +68,31 @@ public class MovieManagerNetRepository extends BaseNetRepository {
         };
     }
 
-    public Single<PopularMovie> getPopularMovies(String api_key) {
-        return movieManagerService.getPopularMovies(api_key)
+    // movies.popular
+    public Single<MovieResult> getPopularMovies(String api_key, String language, int page, String region) {
+        return movieManagerService.getPopularMovies(api_key, language, page, region)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    // movies.top_rated
+    public Single<MovieResult> getTopRatedMovies(String api_key, String language, int page, String region) {
+        return movieManagerService.getTopRatedMovies(api_key, language, page, region)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
+    // movies.now_playing
+    public Single<MovieResult> getInTheatresMovies(String api_key, String language, int page, String region) {
+        return movieManagerService.getInTheatresMovies(api_key, language, page, region)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    // movies.upcoming
+    public Single<MovieResult> getUpcomingMovies(String api_key, String language, int page, String region) {
+        return movieManagerService.getUpcomingMovies(api_key, language, page, region)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

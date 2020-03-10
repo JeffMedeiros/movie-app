@@ -25,8 +25,8 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/txtPopularMovies"
-        android:text="@string/popular_movies"
+        android:id="@+id/txtPopular"
+        android:text="@string/popular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -37,16 +37,16 @@
         app:layout_constraintTop_toBottomOf="@id/layoutFeaturedMovie" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listPopularMovies"
+        android:id="@+id/listPopular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
         app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtPopularMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/txtPopular"/>
 
     <TextView
-        android:id="@+id/txtBestRatedMovies"
-        android:text="@string/best_rated_movies"
+        android:id="@+id/txtTopRated"
+        android:text="@string/top_rated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -54,19 +54,19 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/listPopularMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listPopular"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listBestRatedMovies"
+        android:id="@+id/listTopRated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
         app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtBestRatedMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/txtTopRated"/>
 
     <TextView
-        android:id="@+id/txtAtTheMovies"
-        android:text="@string/at_the_movies"
+        android:id="@+id/txtInTheatres"
+        android:text="@string/in_theatres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -74,19 +74,19 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/listBestRatedMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listTopRated"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listAtTheMovies"
+        android:id="@+id/listInTheatres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
         app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtAtTheMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/txtInTheatres"/>
 
     <TextView
-        android:id="@+id/txtUpcomingReleases"
-        android:text="@string/upcoming_releases"
+        android:id="@+id/txtUpcoming"
+        android:text="@string/upcoming"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -94,7 +94,7 @@
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/listAtTheMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listInTheatres"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listUpcoming"
@@ -102,5 +102,5 @@
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
         app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtUpcomingReleases" />
+        app:layout_constraintTop_toBottomOf="@id/txtUpcoming" />
 </androidx.constraintlayout.widget.ConstraintLayout>

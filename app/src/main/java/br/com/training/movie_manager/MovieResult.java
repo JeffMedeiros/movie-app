@@ -15,7 +15,7 @@ import java.util.List;
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB
  */
-public class PopularMovie {
+public class MovieResult {
 
     @SerializedName("page")
     @Expose()
@@ -32,6 +32,10 @@ public class PopularMovie {
     @SerializedName("results")
     @Expose()
     private List<Movie> results;
+
+    @SerializedName("dates")
+    @Expose()
+    private DateRange dateRange;
 
     public int getPage() {
         return page;
@@ -65,6 +69,14 @@ public class PopularMovie {
         this.results = results;
     }
 
+    public DateRange getDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(DateRange dateRange) {
+        this.dateRange = dateRange;
+    }
+
     /**
      * Convert Object to json format.
      *
@@ -80,12 +92,12 @@ public class PopularMovie {
      * Convert json to Object.
      *
      * @param json String
-     * @return PopularMovie
+     * @return MovieResult
      */
-    public static PopularMovie jsonDeserialize(String json) {
+    public static MovieResult jsonDeserialize(String json) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        Type typePopularMovie = new TypeToken<PopularMovie>() { }.getType();
+        Type typePopularMovie = new TypeToken<MovieResult>() { }.getType();
 
         return gson.fromJson(json, typePopularMovie);
     }

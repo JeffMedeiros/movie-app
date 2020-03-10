@@ -72,6 +72,9 @@ public class Movie {
     @Expose()
     private double vote_average;
 
+    /**
+     * GETTERS AND SETTERS
+     */
     public long getId() {
         return id;
     }
@@ -199,9 +202,9 @@ public class Movie {
      * Convert json to Object.
      *
      * @param json String
-     * @return PopularMovie
+     * @return Movie
      */
-    public static PopularMovie jsonDeserialize(String json) {
+    public static Movie jsonDeserialize(String json) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         Type typeMovie = new TypeToken<Movie>() { }.getType();

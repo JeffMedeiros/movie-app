@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.ViewPreloadSizeProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,17 +37,17 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.viewFeaturedMovie)
     ImageView imgViewFeaturedMovie;
 
-    @BindView(R.id.listPopularMovies)
-    RecyclerView listPopularMovies;
+    @BindView(R.id.listPopular)
+    RecyclerView listPopular;
 
-    @BindView(R.id.listBestRatedMovies)
-    RecyclerView viewBestRatedMovies;
+    @BindView(R.id.listTopRated)
+    RecyclerView listTopRated;
 
-    @BindView(R.id.listAtTheMovies)
-    RecyclerView viewAtTheMoviesMovies;
+    @BindView(R.id.listInTheatres)
+    RecyclerView listInTheatres;
 
     @BindView(R.id.listUpcoming)
-    RecyclerView viewUpcomingMovies;
+    RecyclerView listUpcoming;
 
     /**
      * CONSTANTS
@@ -65,8 +64,14 @@ public class HomeFragment extends Fragment {
      * RecyclerView objects
      */
     private RecyclerView.LayoutManager popularLayoutManager;
-    private RecyclerAdapter popularAdapter;
-    private ViewPreloadSizeProvider<String> preloadSizeProvider;
+    private RecyclerView.LayoutManager topRatedLayoutManager;
+    private RecyclerView.LayoutManager inTheatresLayoutManager;
+    private RecyclerView.LayoutManager upcomingLayoutManager;
+
+    private BaseAdapter popularAdapter;
+    private BaseAdapter topRatedAdapter;
+    private BaseAdapter inTheatresAdapter;
+    private BaseAdapter upcomingAdapter;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -90,11 +95,42 @@ public class HomeFragment extends Fragment {
         popularLayoutManager = new LinearLayoutManager(
                 getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
 
-        listPopularMovies.setLayoutManager(popularLayoutManager);
+        listPopular.setLayoutManager(popularLayoutManager);
 
         // Set Adapter
-        popularAdapter = new RecyclerAdapter();
-        listPopularMovies.setAdapter(popularAdapter);
+        popularAdapter = new PopularAdapter(this.getContext());
+        listPopular.setAdapter(popularAdapter);
+
+        /**
+         * Settings for "top rated movies" RecyclerView
+         */
+        topRatedLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        listTopRated.setLayoutManager(topRatedLayoutManager);
+
+        topRatedAdapter = new TopRatedAdapter(this.getContext());
+        listTopRated.setAdapter(topRatedAdapter);
+
+        /**
+         * Settings for "in theatres movies" RecyclerView
+         */
+        inTheatresLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        listInTheatres.setLayoutManager(inTheatresLayoutManager);
+
+        inTheatresAdapter = new InTheatresAdapter(this.getContext());
+        listInTheatres.setAdapter(inTheatresAdapter);
+
+        /**
+         * Settings for "upcoming movies" RecyclerView
+         */
+        upcomingLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        listUpcoming.setLayoutManager(upcomingLayoutManager);
+
+        upcomingAdapter = new UpcomingAdapter(this.getContext());
+        listUpcoming.setAdapter(upcomingAdapter);
+
         return layout;
     }
 
@@ -106,7 +142,7 @@ public class HomeFragment extends Fragment {
          * Consuming "popular movies" API
          */
         compositeDisposable.add(movieManagerNetRepository
-                .getPopularMovies(MainActivity.API_KEY)
+                .getPopularMovies(MainActivity.API_KEY, "en-US", 1, null)
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
@@ -119,14 +155,83 @@ public class HomeFragment extends Fragment {
                             .into(imgViewFeaturedMovie);
 
                     // Popular movies logic
-                    List<String> urlsPopularMovies = new ArrayList<>();
+                    List<String> urlsPopular = new ArrayList<>();
                     for (int i = 0; i < 20; i++) {
-                        urlsPopularMovies.add("https://image.tmdb.org/t/p/w780"
+                        urlsPopular.add("https://image.tmdb.org/t/p/w780"
                                 + moviesResults.get(i).getPoster_path());
                     }
 
-                    popularAdapter.setmDataSet(urlsPopularMovies);
+                    popularAdapter.setmDataSet(urlsPopular);
                     popularAdapter.notifyDataSetChanged();
+
+                    Log.w(TAG, movies.toJson());
+                }, error -> {
+                    Log.w(TAG, error);
+                }));
+
+        /**
+         * Consuming "top rated movies" API
+         */
+        compositeDisposable.add(movieManagerNetRepository
+                .getTopRatedMovies(MainActivity.API_KEY, "en-US", 1, null)
+                .subscribe(movies -> {
+                    List<Movie> moviesResults = movies.getResults();
+
+                    // Top rated movies logic
+                    List<String> urlsTopRated = new ArrayList<>();
+                    for (int i = 0; i < 20; i++) {
+                        urlsTopRated.add("https://image.tmdb.org/t/p/w780"
+                                + moviesResults.get(i).getPoster_path());
+                    }
+
+                    topRatedAdapter.setmDataSet(urlsTopRated);
+                    topRatedAdapter.notifyDataSetChanged();
+
+                    Log.w(TAG, movies.toJson());
+                }, error -> {
+                    Log.w(TAG, error);
+                }));
+
+        /**
+         * Consuming "in theatres movies" API
+         */
+        compositeDisposable.add(movieManagerNetRepository
+                .getInTheatresMovies(MainActivity.API_KEY, "en-US", 1, null)
+                .subscribe(movies -> {
+                    List<Movie> moviesResults = movies.getResults();
+
+                    // In theatres movies logic
+                    List<String> urlsInTheatres = new ArrayList<>();
+                    for (int i = 0; i < 20; i++) {
+                        urlsInTheatres.add("https://image.tmdb.org/t/p/w780"
+                                + moviesResults.get(i).getPoster_path());
+                    }
+
+                    inTheatresAdapter.setmDataSet(urlsInTheatres);
+                    inTheatresAdapter.notifyDataSetChanged();
+
+                    Log.w(TAG, movies.toJson());
+                }, error -> {
+                    Log.w(TAG, error);
+                }));
+
+        /**
+         * Consuming "upcoming movies" API
+         */
+        compositeDisposable.add(movieManagerNetRepository
+                .getUpcomingMovies(MainActivity.API_KEY, "en-US", 1, null)
+                .subscribe(movies -> {
+                    List<Movie> moviesResults = movies.getResults();
+
+                    // Upcoming movies logic
+                    List<String> urlsUpcoming = new ArrayList<>();
+                    for (int i = 0; i < 20; i++) {
+                        urlsUpcoming.add("https://image.tmdb.org/t/p/w780"
+                                + moviesResults.get(i).getPoster_path());
+                    }
+
+                    upcomingAdapter.setmDataSet(urlsUpcoming);
+                    upcomingAdapter.notifyDataSetChanged();
 
                     Log.w(TAG, movies.toJson());
                 }, error -> {
