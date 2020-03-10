@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 /**
- * Class for Favorites fragment.
+ * Represents Favorites fragment.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB

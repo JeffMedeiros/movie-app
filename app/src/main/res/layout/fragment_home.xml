@@ -25,70 +25,83 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/txtPopularMovies"
-        android:text="@string/popular_movies"
+        android:id="@+id/txtPopular"
+        android:text="@string/popular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
         app:layout_constraintTop_toBottomOf="@id/layoutFeaturedMovie" />
 
-    <ScrollView
-        android:id="@+id/scrollPopularMovies"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listPopular"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtPopularMovies"/>
+        android:scrollbars="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
+        app:layout_constraintTop_toBottomOf="@id/txtPopular"/>
 
     <TextView
-        android:id="@+id/txtBestRatedMovies"
-        android:text="@string/best_rated_movies"
+        android:id="@+id/txtTopRated"
+        android:text="@string/top_rated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/scrollPopularMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listPopular"/>
 
-    <ScrollView
-        android:id="@+id/scrollBestRatedMovies"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listTopRated"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtBestRatedMovies"/>
+        android:scrollbars="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
+        app:layout_constraintTop_toBottomOf="@id/txtTopRated"/>
 
     <TextView
-        android:id="@+id/txtAtTheMovies"
-        android:text="@string/at_the_movies"
+        android:id="@+id/txtInTheatres"
+        android:text="@string/in_theatres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/scrollBestRatedMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listTopRated"/>
 
-    <ScrollView
-        android:id="@+id/scrollAtTheMovies"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listInTheatres"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtAtTheMovies"/>
+        android:scrollbars="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
+        app:layout_constraintTop_toBottomOf="@id/txtInTheatres"/>
 
     <TextView
-        android:id="@+id/txtUpcomingReleases"
-        android:text="@string/upcoming_releases"
+        android:id="@+id/txtUpcoming"
+        android:text="@string/upcoming"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/scrollAtTheMovies"/>
+        app:layout_constraintTop_toBottomOf="@id/listInTheatres"/>
 
-    <ScrollView
-        android:id="@+id/scrollUpcomingReleases"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listUpcoming"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtUpcomingReleases"/>
+        android:scrollbars="horizontal"
+        android:paddingBottom="5dp"
+        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
+        app:layout_constraintTop_toBottomOf="@id/txtUpcoming" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,8 +8,8 @@
     <string name="action_more">More Options</string>
 
     <!-- HOME -->
-    <string name="popular_movies">Popular ></string>
-    <string name="best_rated_movies">Best Rated ></string>
-    <string name="at_the_movies">At the movies ></string>
-    <string name="upcoming_releases">Upcoming ></string>
+    <string name="popular">Popular ></string>
+    <string name="top_rated">Best Rated ></string>
+    <string name="in_theatres">In Theatres ></string>
+    <string name="upcoming">Upcoming ></string>
 </resources>

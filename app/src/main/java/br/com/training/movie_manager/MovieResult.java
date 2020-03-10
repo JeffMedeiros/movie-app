@@ -10,12 +10,13 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Represents the object of popular movies.
+ * Represents the object returned by the API's movie.popular, movie.top_rated, movie.now_playing
+ * and movie.upcoming routes.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB
  */
-public class PopularMovie {
+public class MovieResult {
 
     @SerializedName("page")
     @Expose()
@@ -23,15 +24,19 @@ public class PopularMovie {
 
     @SerializedName("total_results")
     @Expose()
-    private int total_results;
+    private int totalResults;
 
     @SerializedName("total_pages")
     @Expose()
-    private int total_pages;
+    private int totalPages;
 
     @SerializedName("results")
     @Expose()
     private List<Movie> results;
+
+    @SerializedName("dates")
+    @Expose()
+    private DateRange dateRange;
 
     public int getPage() {
         return page;
@@ -41,20 +46,20 @@ public class PopularMovie {
         this.page = page;
     }
 
-    public int getTotal_results() {
-        return total_results;
+    public int getTotalResults() {
+        return totalResults;
     }
 
-    public void setTotal_results(int total_results) {
-        this.total_results = total_results;
+    public void setTotalResults(int totalResults) {
+        this.totalResults = totalResults;
     }
 
-    public int getTotal_pages() {
-        return total_pages;
+    public int getTotalPages() {
+        return totalPages;
     }
 
-    public void setTotal_pages(int total_pages) {
-        this.total_pages = total_pages;
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 
     public List<Movie> getResults() {
@@ -63,6 +68,14 @@ public class PopularMovie {
 
     public void setResults(List<Movie> results) {
         this.results = results;
+    }
+
+    public DateRange getDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(DateRange dateRange) {
+        this.dateRange = dateRange;
     }
 
     /**
@@ -80,12 +93,13 @@ public class PopularMovie {
      * Convert json to Object.
      *
      * @param json String
-     * @return PopularMovie
+     * @return MovieResult
      */
-    public static PopularMovie jsonDeserialize(String json) {
+    public static MovieResult jsonDeserialize(String json) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        Type typePopularMovie = new TypeToken<PopularMovie>() { }.getType();
+        Type typePopularMovie = new TypeToken<MovieResult>() {
+        }.getType();
 
         return gson.fromJson(json, typePopularMovie);
     }
