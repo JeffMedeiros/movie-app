@@ -1,7 +1,6 @@
 package br.com.training.movie_manager;
 
 import android.content.Context;
-import android.util.Log;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -9,7 +8,8 @@ import io.reactivex.schedulers.Schedulers;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
-import okhttp3.Response;
+
+import timber.log.Timber;
 
 /**
  * Interface for MovieManager API.
@@ -28,7 +28,7 @@ public class MovieManagerNetRepository extends BaseNetRepository {
         super.addInterceptor(requestInterceptor());
         super.addInterceptor(responseInterceptor());
 
-        movieManagerService = super.provideRetrofit(MovieManagerService.BASE_URL)
+        movieManagerService = super.provideRetrofit(Default.BASE_URL)
                 .create(MovieManagerService.class);
     }
 
@@ -49,7 +49,7 @@ public class MovieManagerNetRepository extends BaseNetRepository {
                     .header("Content-type", "application/json")
                     .method(request.method(), request.body());
 
-            Log.w("InterceptorHANIOT", "| REQUEST: " + requestBuilder.build().method() + " "
+            Timber.tag("InterceptorMovie+").d("| REQUEST: " + requestBuilder.build().method() + " "
                     + requestBuilder.build().url().toString());
             return chain.proceed(requestBuilder.build());
         };
@@ -61,37 +61,34 @@ public class MovieManagerNetRepository extends BaseNetRepository {
      * @return Interceptor
      */
     private Interceptor responseInterceptor() {
-        return chain -> {
-            Response response = chain.proceed(chain.request());
+        return chain -> chain.proceed(chain.request());
 
-            return response;
-        };
     }
 
     // movies.popular
-    public Single<MovieResult> getPopularMovies(String api_key, String language, int page, String region) {
-        return movieManagerService.getPopularMovies(api_key, language, page, region)
+    public Single<MovieResult> getPopularMovies(String apiKey, String language, int page, String region) {
+        return movieManagerService.getPopularMovies(apiKey, language, page, region)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     // movies.top_rated
-    public Single<MovieResult> getTopRatedMovies(String api_key, String language, int page, String region) {
-        return movieManagerService.getTopRatedMovies(api_key, language, page, region)
+    public Single<MovieResult> getTopRatedMovies(String apiKey, String language, int page, String region) {
+        return movieManagerService.getTopRatedMovies(apiKey, language, page, region)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     // movies.now_playing
-    public Single<MovieResult> getInTheatresMovies(String api_key, String language, int page, String region) {
-        return movieManagerService.getInTheatresMovies(api_key, language, page, region)
+    public Single<MovieResult> getInTheatresMovies(String apiKey, String language, int page, String region) {
+        return movieManagerService.getInTheatresMovies(apiKey, language, page, region)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     // movies.upcoming
-    public Single<MovieResult> getUpcomingMovies(String api_key, String language, int page, String region) {
-        return movieManagerService.getUpcomingMovies(api_key, language, page, region)
+    public Single<MovieResult> getUpcomingMovies(String apiKey, String language, int page, String region) {
+        return movieManagerService.getUpcomingMovies(apiKey, language, page, region)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }

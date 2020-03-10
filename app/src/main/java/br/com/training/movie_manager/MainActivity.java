@@ -9,6 +9,7 @@ import androidx.appcompat.widget.ActionMenuView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Class for main activity.
@@ -21,13 +22,15 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_bottom)
     ActionMenuView bottomBar;
 
-    public static final String API_KEY = "2a946dd20bb20e6eed31ee5e8e8687c9";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
 
         // Start with home screen
         HomeFragment homeFragment = new HomeFragment();

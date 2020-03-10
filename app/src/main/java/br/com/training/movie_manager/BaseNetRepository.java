@@ -24,7 +24,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Class for BaseNet repository.
+ * Provides necessary settings for the application repository.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB
@@ -33,7 +33,9 @@ public abstract class BaseNetRepository {
     protected Context mContext;
     private OkHttpClient.Builder mClient;
 
-    public BaseNetRepository(Context context) { this.mContext = context; }
+    public BaseNetRepository(Context context) {
+        this.mContext = context;
+    }
 
     private Cache provideHttpCache() {
         int cacheSize = 10 * 1024 * 1024;
@@ -75,7 +77,7 @@ public abstract class BaseNetRepository {
     private OkHttpClient.Builder getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
+            final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
                         public void checkClientTrusted(X509Certificate[] chain, String authType) {

@@ -9,16 +9,16 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * Provide views to RecyclerView with data from mDataSet array.
+ * Provides views to RecyclerView with data from mDataSet array.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB

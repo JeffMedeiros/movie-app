@@ -8,6 +8,12 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
+/**
+ * Represents MovieResult "dates" object.
+ *
+ * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
+ * @copyright Copyright (c) 2020, NUTES/UEPB
+ */
 public class DateRange {
     @SerializedName("maximum")
     @Expose
@@ -34,7 +40,7 @@ public class DateRange {
     }
 
     /**
-     * Convert Object to json format.
+     * Converts Object to json format.
      *
      * @return String
      */
@@ -45,7 +51,7 @@ public class DateRange {
     }
 
     /**
-     * Convert json to Object.
+     * Converts json to Object.
      *
      * @param json String
      * @return DateRange
@@ -53,7 +59,8 @@ public class DateRange {
     public static DateRange jsonDeserialize(String json) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        Type typeDates = new TypeToken<DateRange>() { }.getType();
+        Type typeDates = new TypeToken<DateRange>() {
+        }.getType();
 
         return gson.fromJson(json, typeDates);
     }

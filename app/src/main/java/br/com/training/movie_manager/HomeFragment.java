@@ -1,7 +1,6 @@
 package br.com.training.movie_manager;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import com.bumptech.glide.Glide;
+
+import io.reactivex.disposables.CompositeDisposable;
+
+import timber.log.Timber;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import io.reactivex.disposables.CompositeDisposable;
-
 /**
- * Class for Home fragment.
+ * Represents Home fragment.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB
@@ -49,13 +51,6 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.listUpcoming)
     RecyclerView listUpcoming;
 
-    /**
-     * CONSTANTS
-     */
-    private static final int PRELOAD_AHEAD_ITEMS = 15;
-    private static final String TAG = "HomeFragment";
-
-
     private MovieManagerNetRepository movieManagerNetRepository;
     private CompositeDisposable compositeDisposable;
     private Unbinder unbinder;
@@ -78,7 +73,6 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         movieManagerNetRepository = MovieManagerNetRepository.getInstance(getActivity().getApplicationContext());
-        Log.w(TAG, movieManagerNetRepository.toString());
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -142,13 +136,13 @@ public class HomeFragment extends Fragment {
          * Consuming "popular movies" API
          */
         compositeDisposable.add(movieManagerNetRepository
-                .getPopularMovies(MainActivity.API_KEY, "en-US", 1, null)
+                .getPopularMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
                     // Featured movie logic
                     String imgFeaturedMovieUri = "https://image.tmdb.org/t/p/original"
-                            + moviesResults.get(0).getBackdrop_path();
+                            + moviesResults.get(0).getBackdropPath();
 
                     Glide.with(this)
                             .load(imgFeaturedMovieUri)
@@ -157,86 +151,70 @@ public class HomeFragment extends Fragment {
                     // Popular movies logic
                     List<String> urlsPopular = new ArrayList<>();
                     for (int i = 0; i < 20; i++) {
-                        urlsPopular.add("https://image.tmdb.org/t/p/w780"
-                                + moviesResults.get(i).getPoster_path());
+                        urlsPopular.add(Default.BASE_URL_IMAGE + moviesResults.get(i).getPosterPath());
                     }
 
                     popularAdapter.setmDataSet(urlsPopular);
                     popularAdapter.notifyDataSetChanged();
-
-                    Log.w(TAG, movies.toJson());
-                }, error -> {
-                    Log.w(TAG, error);
-                }));
+                }, error -> Timber.e(error))
+        );
 
         /**
          * Consuming "top rated movies" API
          */
         compositeDisposable.add(movieManagerNetRepository
-                .getTopRatedMovies(MainActivity.API_KEY, "en-US", 1, null)
+                .getTopRatedMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
                     // Top rated movies logic
                     List<String> urlsTopRated = new ArrayList<>();
                     for (int i = 0; i < 20; i++) {
-                        urlsTopRated.add("https://image.tmdb.org/t/p/w780"
-                                + moviesResults.get(i).getPoster_path());
+                        urlsTopRated.add(Default.BASE_URL_IMAGE + moviesResults.get(i).getPosterPath());
                     }
 
                     topRatedAdapter.setmDataSet(urlsTopRated);
                     topRatedAdapter.notifyDataSetChanged();
-
-                    Log.w(TAG, movies.toJson());
-                }, error -> {
-                    Log.w(TAG, error);
-                }));
+                }, error -> Timber.e(error))
+        );
 
         /**
          * Consuming "in theatres movies" API
          */
         compositeDisposable.add(movieManagerNetRepository
-                .getInTheatresMovies(MainActivity.API_KEY, "en-US", 1, null)
+                .getInTheatresMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
                     // In theatres movies logic
                     List<String> urlsInTheatres = new ArrayList<>();
                     for (int i = 0; i < 20; i++) {
-                        urlsInTheatres.add("https://image.tmdb.org/t/p/w780"
-                                + moviesResults.get(i).getPoster_path());
+                        urlsInTheatres.add(Default.BASE_URL_IMAGE + moviesResults.get(i).getPosterPath());
                     }
 
                     inTheatresAdapter.setmDataSet(urlsInTheatres);
                     inTheatresAdapter.notifyDataSetChanged();
-
-                    Log.w(TAG, movies.toJson());
-                }, error -> {
-                    Log.w(TAG, error);
-                }));
+                }, error -> Timber.e(error))
+        );
 
         /**
          * Consuming "upcoming movies" API
          */
         compositeDisposable.add(movieManagerNetRepository
-                .getUpcomingMovies(MainActivity.API_KEY, "en-US", 1, null)
+                .getUpcomingMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
                     // Upcoming movies logic
                     List<String> urlsUpcoming = new ArrayList<>();
                     for (int i = 0; i < 20; i++) {
-                        urlsUpcoming.add("https://image.tmdb.org/t/p/w780"
-                                + moviesResults.get(i).getPoster_path());
+                        urlsUpcoming.add(Default.BASE_URL_IMAGE + moviesResults.get(i).getPosterPath());
                     }
 
                     upcomingAdapter.setmDataSet(urlsUpcoming);
                     upcomingAdapter.notifyDataSetChanged();
-
-                    Log.w(TAG, movies.toJson());
-                }, error -> {
-                    Log.w(TAG, error);
-                }));
+                }, error -> Timber.e(error))
+        );
     }
 
     @Override
