@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,24 +37,32 @@ public class HomeFragment extends Fragment {
     /**
      * Bind Layout elements
      */
+    @BindView(R.id.home_swipe_refresh)
+    SwipeRefreshLayout mDataSwipeRefresh;
+
     @BindView(R.id.viewFeaturedMovie)
-    ImageView imgViewFeaturedMovie;
+    ImageView mImgViewFeaturedMovie;
 
     @BindView(R.id.listPopular)
-    RecyclerView listPopular;
+    RecyclerView mListPopular;
 
     @BindView(R.id.listTopRated)
-    RecyclerView listTopRated;
+    RecyclerView mListTopRated;
 
     @BindView(R.id.listInTheatres)
-    RecyclerView listInTheatres;
+    RecyclerView mListInTheatres;
 
     @BindView(R.id.listUpcoming)
-    RecyclerView listUpcoming;
+    RecyclerView mListUpcoming;
 
-    private MovieManagerNetRepository movieManagerNetRepository;
-    private CompositeDisposable compositeDisposable;
-    private Unbinder unbinder;
+    private MovieManagerNetRepository mMovieManagerNetRepository;
+    private CompositeDisposable mCompositeDisposable;
+    private Unbinder mUnbinder;
+
+    // We need this variable to lock and unlock loading more.
+    // We should not charge more when a request has already been made.
+    // The load will be activated when the requisition is completed.
+    private boolean itShouldLoadMore = true;
 
     /**
      * RecyclerView objects
@@ -72,71 +81,102 @@ public class HomeFragment extends Fragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        movieManagerNetRepository = MovieManagerNetRepository.getInstance(getActivity().getApplicationContext());
-        compositeDisposable = new CompositeDisposable();
+        mMovieManagerNetRepository = MovieManagerNetRepository.getInstance(getActivity().getApplicationContext());
+        mCompositeDisposable = new CompositeDisposable();
+
+        /**
+         * Initialize LayoutManager and Adapter for "Popular Movies" RecyclerView
+         */
+        // Set LayoutManager
+        popularLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        popularAdapter = new PopularAdapter(this.getContext());
+
+        /**
+         * For "Top Rated Movies" RecyclerView
+         */
+        topRatedLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        topRatedAdapter = new TopRatedAdapter(this.getContext());
+
+        /**
+         * For "In Theatres Movies" RecyclerView
+         */
+        inTheatresLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        inTheatresAdapter = new InTheatresAdapter(this.getContext());
+
+        /**
+         * For "Upcoming Movies" RecyclerView
+         */
+        upcomingLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        upcomingAdapter = new UpcomingAdapter(this.getContext());
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_home, container, false);
-        unbinder = ButterKnife.bind(this, layout);
-
-        /**
-         * Settings for "popular movies" RecyclerView
-         */
-        // Set LayoutManager
-        popularLayoutManager = new LinearLayoutManager(
-                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-
-        listPopular.setLayoutManager(popularLayoutManager);
-
-        // Set Adapter
-        popularAdapter = new PopularAdapter(this.getContext());
-        listPopular.setAdapter(popularAdapter);
-
-        /**
-         * Settings for "top rated movies" RecyclerView
-         */
-        topRatedLayoutManager = new LinearLayoutManager(
-                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        listTopRated.setLayoutManager(topRatedLayoutManager);
-
-        topRatedAdapter = new TopRatedAdapter(this.getContext());
-        listTopRated.setAdapter(topRatedAdapter);
-
-        /**
-         * Settings for "in theatres movies" RecyclerView
-         */
-        inTheatresLayoutManager = new LinearLayoutManager(
-                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        listInTheatres.setLayoutManager(inTheatresLayoutManager);
-
-        inTheatresAdapter = new InTheatresAdapter(this.getContext());
-        listInTheatres.setAdapter(inTheatresAdapter);
-
-        /**
-         * Settings for "upcoming movies" RecyclerView
-         */
-        upcomingLayoutManager = new LinearLayoutManager(
-                getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        listUpcoming.setLayoutManager(upcomingLayoutManager);
-
-        upcomingAdapter = new UpcomingAdapter(this.getContext());
-        listUpcoming.setAdapter(upcomingAdapter);
+        mUnbinder = ButterKnife.bind(this, layout);
 
         return layout;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        configureRecyclerViews();
+        initComponents();
+
+    }
+
+    private void configureRecyclerViews() {
+        // "Popular Movies"
+        mListPopular.setLayoutManager(popularLayoutManager);
+        mListPopular.setAdapter(popularAdapter);
+
+        // "Top Rated Movies"
+        mListTopRated.setLayoutManager(topRatedLayoutManager);
+        mListTopRated.setAdapter(topRatedAdapter);
+
+        // "In Theatres Movies"
+        mListInTheatres.setLayoutManager(inTheatresLayoutManager);
+        mListInTheatres.setAdapter(inTheatresAdapter);
+
+        // "Upcoming Movies"
+        mListUpcoming.setLayoutManager(upcomingLayoutManager);
+        mListUpcoming.setAdapter(upcomingAdapter);
+    }
+    /**
+     * Initialize components
+     */
+    private void initComponents() {
+        initDataSwipeRefresh();
+        loadMovieData();
+    }
+
+    /**
+     * Initialize SwipeRefresh
+     */
+    private void initDataSwipeRefresh() {
+        mDataSwipeRefresh.setOnRefreshListener(() -> {
+            if (itShouldLoadMore) loadMovieData();
+        });
+    }
+
+    /**
+     * Load movie data from the TMDb server.
+     */
+    private void loadMovieData() {
         /**
          * Consuming "popular movies" API
          */
-        compositeDisposable.add(movieManagerNetRepository
+        mCompositeDisposable.add(mMovieManagerNetRepository
                 .getPopularMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
+                .doOnSubscribe(disposable -> loading(true))
+                .doAfterTerminate(() -> loading(false))
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
@@ -146,7 +186,7 @@ public class HomeFragment extends Fragment {
 
                     Glide.with(this)
                             .load(imgFeaturedMovieUri)
-                            .into(imgViewFeaturedMovie);
+                            .into(mImgViewFeaturedMovie);
 
                     // Popular movies logic
                     List<String> urlsPopular = new ArrayList<>();
@@ -162,8 +202,10 @@ public class HomeFragment extends Fragment {
         /**
          * Consuming "top rated movies" API
          */
-        compositeDisposable.add(movieManagerNetRepository
+        mCompositeDisposable.add(mMovieManagerNetRepository
                 .getTopRatedMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
+                .doOnSubscribe(disposable -> loading(true))
+                .doAfterTerminate(() -> loading(false))
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
@@ -181,8 +223,10 @@ public class HomeFragment extends Fragment {
         /**
          * Consuming "in theatres movies" API
          */
-        compositeDisposable.add(movieManagerNetRepository
+        mCompositeDisposable.add(mMovieManagerNetRepository
                 .getInTheatresMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
+                .doOnSubscribe(disposable -> loading(true))
+                .doAfterTerminate(() -> loading(false))
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
@@ -200,8 +244,10 @@ public class HomeFragment extends Fragment {
         /**
          * Consuming "upcoming movies" API
          */
-        compositeDisposable.add(movieManagerNetRepository
+        mCompositeDisposable.add(mMovieManagerNetRepository
                 .getUpcomingMovies(Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE, 1, null)
+                .doOnSubscribe(disposable -> loading(true))
+                .doAfterTerminate(() -> loading(false))
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
@@ -217,10 +263,24 @@ public class HomeFragment extends Fragment {
         );
     }
 
+    /**
+     * Enable/Disable display loading data.
+     *
+     * @param enabled boolean
+     */
+    private void loading(final boolean enabled) {
+        mDataSwipeRefresh.setRefreshing(false);
+        if (!enabled) {
+            itShouldLoadMore = true;
+            return;
+        }
+        itShouldLoadMore = false;
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
-        compositeDisposable.dispose();
-        unbinder.unbind();
+        mCompositeDisposable.dispose();
+        mUnbinder.unbind();
     }
 }
