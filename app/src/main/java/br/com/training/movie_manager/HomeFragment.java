@@ -1,9 +1,11 @@
 package br.com.training.movie_manager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +34,7 @@ import java.util.List;
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Bind Layout elements
@@ -40,19 +42,22 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.home_swipe_refresh)
     SwipeRefreshLayout mDataSwipeRefresh;
 
-    @BindView(R.id.viewFeaturedMovie)
+    @BindView(R.id.view_featured_movie)
     ImageView mImgViewFeaturedMovie;
 
-    @BindView(R.id.listPopular)
+    @BindView(R.id.button_play_trailer)
+    Button buttonPlayTrailer;
+
+    @BindView(R.id.list_popular)
     RecyclerView mListPopular;
 
-    @BindView(R.id.listTopRated)
+    @BindView(R.id.list_top_rated)
     RecyclerView mListTopRated;
 
-    @BindView(R.id.listInTheatres)
+    @BindView(R.id.list_in_theatres)
     RecyclerView mListInTheatres;
 
-    @BindView(R.id.listUpcoming)
+    @BindView(R.id.list_upcoming)
     RecyclerView mListUpcoming;
 
     private MovieManagerNetRepository mMovieManagerNetRepository;
@@ -63,6 +68,8 @@ public class HomeFragment extends Fragment {
     // We should not charge more when a request has already been made.
     // The load will be activated when the requisition is completed.
     private boolean itShouldLoadMore = true;
+
+    private String mUrlTrailer = Default.BASE_URL_VIDEO;
 
     /**
      * RecyclerView objects
@@ -129,9 +136,11 @@ public class HomeFragment extends Fragment {
 
         configureRecyclerViews();
         initComponents();
-
     }
 
+    /**
+     * Configure LayoutManager's and Adapters of RecyclerView objects
+     */
     private void configureRecyclerViews() {
         // "Popular Movies"
         mListPopular.setLayoutManager(popularLayoutManager);
@@ -149,18 +158,22 @@ public class HomeFragment extends Fragment {
         mListUpcoming.setLayoutManager(upcomingLayoutManager);
         mListUpcoming.setAdapter(upcomingAdapter);
     }
+
     /**
      * Initialize components
      */
     private void initComponents() {
-        initDataSwipeRefresh();
+        buttonPlayTrailer.setOnClickListener(this);
+
+        initMovieSwipeRefresh();
+
         loadMovieData();
     }
 
     /**
      * Initialize SwipeRefresh
      */
-    private void initDataSwipeRefresh() {
+    private void initMovieSwipeRefresh() {
         mDataSwipeRefresh.setOnRefreshListener(() -> {
             if (itShouldLoadMore) loadMovieData();
         });
@@ -180,9 +193,27 @@ public class HomeFragment extends Fragment {
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
+                    Movie featuredMovie = moviesResults.get(0);
+
+                    // Logic of featured movie trailer
+                    mCompositeDisposable.add(mMovieManagerNetRepository
+                        .getMovieVideos(featuredMovie.getId(), Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE)
+                        .subscribe(movieVideos -> {
+                            List<MovieVideo> movieVideoResults = movieVideos.getResults();
+
+                            for (int i = 0; i < movieVideoResults.size(); i++) {
+                                MovieVideo movieVideoItem = movieVideoResults.get(i);
+
+                                if (movieVideoItem.getType().equals(Default.TRAILER_TYPE)) {
+                                    mUrlTrailer += movieVideoItem.getKey();
+                                }
+                            }
+                        }, error -> Timber.e(error))
+                    );
+
                     // Featured movie logic
                     String imgFeaturedMovieUri = "https://image.tmdb.org/t/p/original"
-                            + moviesResults.get(0).getBackdropPath();
+                            + featuredMovie.getBackdropPath();
 
                     Glide.with(this)
                             .load(imgFeaturedMovieUri)
@@ -275,6 +306,13 @@ public class HomeFragment extends Fragment {
             return;
         }
         itShouldLoadMore = false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent it = new Intent(this.getActivity().getApplicationContext(), TrailerActivity.class);
+        it.putExtra(TrailerActivity.EXTRA_URL, mUrlTrailer);
+        startActivity(it);
     }
 
     @Override

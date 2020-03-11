@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
- * Class for main activity.
+ * Represents Main Activity.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB

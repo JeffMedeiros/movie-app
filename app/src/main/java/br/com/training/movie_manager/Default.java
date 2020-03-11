@@ -9,6 +9,10 @@ public class Default {
 
     public static final String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w780";
 
+    public static final String TRAILER_TYPE = "Trailer";
+
+    public static final String BASE_URL_VIDEO = "https://www.youtube.com/watch?v=";
+
     private Default() {
         throw new IllegalStateException("Utility class");
     }
