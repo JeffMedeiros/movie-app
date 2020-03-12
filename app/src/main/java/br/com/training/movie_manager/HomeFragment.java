@@ -193,22 +193,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 .subscribe(movies -> {
                     List<Movie> moviesResults = movies.getResults();
 
+                    // Logic of featured movie trailer
                     Movie featuredMovie = moviesResults.get(0);
 
-                    // Logic of featured movie trailer
                     mCompositeDisposable.add(mMovieManagerNetRepository
-                        .getMovieVideos(featuredMovie.getId(), Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE)
-                        .subscribe(movieVideos -> {
-                            List<MovieVideo> movieVideoResults = movieVideos.getResults();
+                            .getMovieVideos(featuredMovie.getId(), Default.API_KEY, Default.MOVIE_RESULTS_LANGUAGE)
+                            .subscribe(movieVideos -> {
+                                List<MovieVideo> movieVideosResults = movieVideos.getResults();
 
-                            for (int i = 0; i < movieVideoResults.size(); i++) {
-                                MovieVideo movieVideoItem = movieVideoResults.get(i);
+                                for (int i = 0; i < movieVideosResults.size(); i++) {
+                                    MovieVideo movieVideoItem = movieVideosResults.get(i);
 
-                                if (movieVideoItem.getType().equals(Default.TRAILER_TYPE)) {
-                                    mUrlTrailer += movieVideoItem.getKey();
+                                    if ((movieVideoItem.getType()).equals(Default.TRAILER_TYPE)) {
+                                        mUrlTrailer = mUrlTrailer.concat(movieVideoItem.getKey());
+
+                                        break;
+                                    }
                                 }
-                            }
-                        }, error -> Timber.e(error))
+                            }, Timber::e)
                     );
 
                     // Featured movie logic
@@ -227,7 +229,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     popularAdapter.setmDataSet(urlsPopular);
                     popularAdapter.notifyDataSetChanged();
-                }, error -> Timber.e(error))
+                }, Timber::e)
         );
 
         /**
@@ -248,7 +250,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     topRatedAdapter.setmDataSet(urlsTopRated);
                     topRatedAdapter.notifyDataSetChanged();
-                }, error -> Timber.e(error))
+                }, Timber::e)
         );
 
         /**
@@ -269,7 +271,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     inTheatresAdapter.setmDataSet(urlsInTheatres);
                     inTheatresAdapter.notifyDataSetChanged();
-                }, error -> Timber.e(error))
+                }, Timber::e)
         );
 
         /**
@@ -290,7 +292,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     upcomingAdapter.setmDataSet(urlsUpcoming);
                     upcomingAdapter.notifyDataSetChanged();
-                }, error -> Timber.e(error))
+                }, Timber::e)
         );
     }
 
