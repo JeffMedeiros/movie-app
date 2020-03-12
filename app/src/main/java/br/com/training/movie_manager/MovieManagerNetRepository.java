@@ -92,4 +92,11 @@ public class MovieManagerNetRepository extends BaseNetRepository {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    // movie.movie_id.videos
+    public Single<MovieVideoResult> getMovieVideos(int movieId, String apiKey, String language) {
+        return movieManagerService.getMovieVideos(movieId, apiKey, language)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

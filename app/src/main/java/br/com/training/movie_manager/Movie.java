@@ -18,7 +18,7 @@ import java.util.List;
 public class Movie {
     @SerializedName("id")
     @Expose()
-    private long id;
+    private int id;
 
     @SerializedName("poster_path")
     @Expose()
@@ -75,11 +75,11 @@ public class Movie {
     /**
      * GETTERS AND SETTERS
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -207,7 +207,8 @@ public class Movie {
     public static Movie jsonDeserialize(String json) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        Type typeMovie = new TypeToken<Movie>() { }.getType();
+        Type typeMovie = new TypeToken<Movie>() {
+        }.getType();
 
         return gson.fromJson(json, typeMovie);
     }

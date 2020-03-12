@@ -63,7 +63,7 @@ public class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.ViewHolder> {
         /**
          * Bind Layout elements
          */
-        @BindView(R.id.imgMovie)
+        @BindView(R.id.img_movie)
         ImageView imageView;
 
         public ViewHolder(View view) {

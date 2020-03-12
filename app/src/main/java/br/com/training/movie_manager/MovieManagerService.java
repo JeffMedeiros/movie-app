@@ -3,6 +3,7 @@ package br.com.training.movie_manager;
 import io.reactivex.Single;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -14,21 +15,31 @@ import retrofit2.http.Query;
 public interface MovieManagerService {
     // movie.popular
     @GET("popular")
-    Single<MovieResult> getPopularMovies(@Query("api_key") String apiKey, @Query("language") String language,
+    Single<MovieResult> getPopularMovies(@Query("api_key") String apiKey,
+                                         @Query("language") String language,
                                          @Query("page") int page, @Query("region") String region);
 
     // movie.top_rated
     @GET("top_rated")
-    Single<MovieResult> getTopRatedMovies(@Query("api_key") String apiKey, @Query("language") String language,
+    Single<MovieResult> getTopRatedMovies(@Query("api_key") String apiKey,
+                                          @Query("language") String language,
                                           @Query("page") int page, @Query("region") String region);
 
     // movie.now_playing
     @GET("now_playing")
-    Single<MovieResult> getInTheatresMovies(@Query("api_key") String apiKey, @Query("language") String language,
+    Single<MovieResult> getInTheatresMovies(@Query("api_key") String apiKey,
+                                            @Query("language") String language,
                                             @Query("page") int page, @Query("region") String region);
 
     // movie.upcoming
     @GET("upcoming")
-    Single<MovieResult> getUpcomingMovies(@Query("api_key") String apiKey, @Query("language") String language,
+    Single<MovieResult> getUpcomingMovies(@Query("api_key") String apiKey,
+                                          @Query("language") String language,
                                           @Query("page") int page, @Query("region") String region);
+
+    // movie.movie_id.videos
+    @GET("{movie_id}/videos")
+    Single<MovieVideoResult> getMovieVideos(@Path("movie_id") int movieId,
+                                            @Query("api_key") String apiKey,
+                                            @Query("language") String language);
 }

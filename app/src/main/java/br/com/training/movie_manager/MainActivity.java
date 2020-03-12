@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
- * Class for main activity.
+ * Represents Main Activity.
  *
  * @author Jefferson Sampaio de Medeiros <jefferson.medeiros@nutes.uepb.edu.br>
  * @copyright Copyright (c) 2020, NUTES/UEPB
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomMenu.getItem(0).setIcon(R.drawable.ic_action_home_clicked);
 
-        for (int i = 0; i < bottomMenu.size(); i++){
+        for (int i = 0; i < bottomMenu.size(); i++) {
             bottomMenu.getItem(i).setOnMenuItemClickListener(item -> {
                 this.resetMenuItemIcons(bottomMenu);
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.action_search:
-                SearchFragment searchFragment= new SearchFragment();
+                SearchFragment searchFragment = new SearchFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, searchFragment).commit();
 

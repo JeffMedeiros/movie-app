@@ -1,107 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainLayout"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:id="@+id/layoutFeaturedMovie"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomeFragment">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        app:layout_constraintTop_toBottomOf="@id/mainLayout"
-        app:layout_constraintBottom_toTopOf="@id/mainLayout">
-        <ImageView
-            android:id="@+id/viewFeaturedMovie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/buttonPlayTrailer"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/ic_action_play"/>
-    </RelativeLayout>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtPopular"
-        android:text="@string/popular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorWhite"
-        android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/layoutFeaturedMovie" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/main_layout"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listPopular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtPopular"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp">
+                <ImageView
+                    android:id="@+id/view_featured_movie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/button_play_trailer"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_action_play"/>
+            </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txtTopRated"
-        android:text="@string/top_rated"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorWhite"
-        android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/listPopular"/>
+            <TextView
+                android:id="@+id/txt_popular"
+                android:text="@string/popular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/colorWhite"
+                android:clickable="true"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listTopRated"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtTopRated"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_popular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"/>
 
-    <TextView
-        android:id="@+id/txtInTheatres"
-        android:text="@string/in_theatres"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorWhite"
-        android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/listTopRated"/>
+            <TextView
+                android:id="@+id/txt_top_rated"
+                android:text="@string/top_rated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/colorWhite"
+                android:clickable="true"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listInTheatres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtInTheatres"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_top_rated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"/>
 
-    <TextView
-        android:id="@+id/txtUpcoming"
-        android:text="@string/upcoming"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorWhite"
-        android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/listInTheatres"/>
+            <TextView
+                android:id="@+id/txt_in_theatres"
+                android:text="@string/in_theatres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/colorWhite"
+                android:clickable="true"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listUpcoming"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        android:paddingBottom="5dp"
-        app:layout_constraintStart_toStartOf="@+id/layoutFeaturedMovie"
-        app:layout_constraintTop_toBottomOf="@id/txtUpcoming" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_in_theatres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"/>
+
+            <TextView
+                android:id="@+id/txt_upcoming"
+                android:text="@string/upcoming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/colorWhite"
+                android:clickable="true"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_upcoming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
+                android:paddingBottom="5dp"/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

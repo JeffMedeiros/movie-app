@@ -98,9 +98,9 @@ public class MovieResult {
     public static MovieResult jsonDeserialize(String json) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        Type typePopularMovie = new TypeToken<MovieResult>() {
+        Type typeMovieResult = new TypeToken<MovieResult>() {
         }.getType();
 
-        return gson.fromJson(json, typePopularMovie);
+        return gson.fromJson(json, typeMovieResult);
     }
 }
